@@ -4,7 +4,7 @@ import { Colors } from "./entity.js";
 import { Player } from "./player.js";
 import { ColorSwitcher } from "./colorSwitcher.js";
 
-//canvas
+// canvas
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -12,24 +12,24 @@ const CANVAS_WIDTH = 1080;
 const CANVAS_HEIGHT = 1920;
 const CANVAS_COLOR = "rgb(25, 25, 25)";
 
+// input
 const keys = {};
-const mousePos = new Vector2(0, 0);
+const mousePos = new Vector2();
 
-//delta time
+// delta time
 let lastTick = performance.now();
-let deltaTime;
+let deltaTime = -1;
 
-///////////////////
+// entities
 const plAndUI = [];
 const map = [];
 
-const test = new Entity(new Vector2(0, -500), "./res/img/img.png");
-test.setSize(new Vector2(6, 6));
-map.push(test);
+const switcher = new ColorSwitcher(new Vector2(CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.25))
+map.push(switcher);
 
-const pl = new Player(new Vector2(CANVAS_WIDTH * .5, 750));
+const pl = new Player(new Vector2(CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.75));
 plAndUI.push(pl);
-let plMoveYBounds = 900;
+let plMoveYBounds = CANVAS_HEIGHT * 0.5;
 
 document.addEventListener("mousemove", (event) => {
     mousePos.x = event.clientX;
@@ -64,6 +64,7 @@ const gameLoop = (now) => {
 };
 
 window.onclick = () => {
+    pl.start = true;
     pl.jump();
 }
 
@@ -90,7 +91,6 @@ const update = () => {
         entity.update(deltaTime);
         entity.position.y += mapOffset;
 
-        // collision detection
         pl.collision(entity);
         
     });

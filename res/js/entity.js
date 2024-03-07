@@ -1,31 +1,5 @@
 import { Vector2 } from "./math.js";
 
-export class Colors {
-    static getColor(i) {
-        switch (i) {
-            case 0:
-            case "folly":
-                return "rgb(255, 67, 101)"; // folly
-                    
-            case 1:
-            case "turquoise":
-                return "rgb(0, 217, 192)"; // turquoise
-
-            case 2:
-            case "black":
-                return "rgb(3, 3, 1)"; // black
-
-            case 3:
-            case "khaki":
-                return "rgb(183, 173, 153)"; // khaki
-        
-            default:
-                console.error("invalid color value");
-                break;
-        }
-    }
-}
-
 export class Entity {
 
     constructor(pos = new Vector2(0, 0), path = "") {
@@ -41,7 +15,7 @@ export class Entity {
     update(deltaTime) {}
 
     draw(ctx) {
-        let ctxTranslation = new Vector2(this.position.x + this.size.x / 2, this.position.y + this.size.y / 2);
+        let ctxTranslation = new Vector2(this.position.x, this.position.y);
         ctx.translate(ctxTranslation.x, ctxTranslation.y);
         ctx.rotate(this.rotation);
 
@@ -51,10 +25,36 @@ export class Entity {
         this.drawExtend(ctx);
 
         ctx.rotate(-this.rotation);
-        ctx.translate(-ctxTranslation.x, -ctxTranslation.y);    
+        ctx.translate(-ctxTranslation.x, -ctxTranslation.y);
     }
 
     setSize(size = new Vector2(1, 1)) {
         this.size = new Vector2(this.img.width * size.x, this.img.height * size.y);
+    }
+}
+
+export class Colors {
+    static getColor(i) {
+        switch (i) {
+            case 0:
+            case "green":
+                return "rgb(112, 243, 178)";
+                    
+            case 1:
+            case "blue":
+                return "rgb(112, 112, 243)";
+
+            case 2:
+            case "red":
+                return "rgb(243, 112, 177)";
+
+            case 3:
+            case "yellow":
+                return "rgb(242,243,112)";
+        
+            default:
+                console.error("invalid color value");
+                break;
+        }
     }
 }
