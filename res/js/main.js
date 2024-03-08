@@ -3,6 +3,7 @@ import { Entity } from "./entity.js";
 import { Colors } from "./entity.js";
 import { Player } from "./player.js";
 import { ColorSwitcher } from "./colorSwitcher.js";
+import { RingObstacle } from "./ringObstacle.js";
 
 // canvas
 const canvas = document.getElementById("canvas");
@@ -24,12 +25,17 @@ let deltaTime = -1;
 const plAndUI = [];
 const map = [];
 
-const switcher = new ColorSwitcher(new Vector2(CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.25))
+const switcher = new ColorSwitcher(new Vector2(CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.25));
 map.push(switcher);
+
+const ring = new RingObstacle(new Vector2(CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.5));
+map.push(ring);
+
+// const SPAWN_GAP = CANVAS_HEIGHT * 0.5;
 
 const pl = new Player(new Vector2(CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.75));
 plAndUI.push(pl);
-let plMoveYBounds = CANVAS_HEIGHT * 0.5;
+const FLW_CAM_BOUNDS = CANVAS_HEIGHT * 0.5;
 
 document.addEventListener("mousemove", (event) => {
     mousePos.x = event.clientX;
@@ -51,15 +57,10 @@ window.onload = () => {
 
 const gameLoop = (now) => {
     resizeCanvas();
-
     clearCanvas();
-
     update();
-
     render();
-
     calcDeltaTime(now);
-
     window.requestAnimationFrame(gameLoop);
 };
 
@@ -80,29 +81,41 @@ const clearCanvas =  () => {
 };
 
 const update = () => {
-    const mapOffset = Math.max(plMoveYBounds - pl.position.y, 0);
+    const mapOffset = Math.max(FLW_CAM_BOUNDS - pl.position.y, 0);
 
     plAndUI.map((entity) => {
         entity.update(deltaTime);
         entity.position.y += mapOffset;
     });
 
-    map.map((entity) => {
+    map.map((entity, i) => {
         entity.update(deltaTime);
         entity.position.y += mapOffset;
-
         pl.collision(entity);
+
+        switch (entity.constructor) {
+            case ColorSwitcher:
+                if (entity.collected) {
+                    entity.collected = false;
+                }
+                break;
+            // case RingObstacle:
+                // if (entity.position.y - entity.radius > CANVAS_HEIGHT) entity.position.y -= OBSTACLE_GAP;
+                // break;
         
+            default:
+                if (entity.position.y > CANVAS_HEIGHT + 750)
+                break;
+        }
     });
 
     // temporary ending
-    if (pl.position.y > CANVAS_HEIGHT) window.location.reload();
+    if (pl.position.y > CANVAS_HEIGHT || pl.dead) end();
 };
 
 const render = () => {
     map.map((entity) => {
         entity.draw(ctx);
-
     });
 
     plAndUI.map((entity) => {
@@ -114,3 +127,8 @@ const calcDeltaTime = (now) => {
     deltaTime = now - lastTick;
     lastTick = now;
 };
+
+const end = () => {
+    // temporary ending
+    window.location.reload();
+}

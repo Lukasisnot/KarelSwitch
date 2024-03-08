@@ -44,3 +44,9 @@ export class Rand {
         return Math.floor(Math.random() * (max - min + 1) ) + min;
     }
 }
+
+export class Waves {
+    static saw(x) {
+        return 2 * Math.atan(Math.tan(x / 2))
+    }
+}
