@@ -33,7 +33,7 @@ const OBSTACLES_NUM = 3;
 const SWITCHER_NUM = OBSTACLES_NUM - 1;
 const OBSTACLES_GAP = CANVAS_HEIGHT * 0.5;
 
-const pl = new Player(new Vector2(CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.75));
+const pl = new Player(new Vector2(CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.8));
 const FLW_CAM_BOUNDS = CANVAS_HEIGHT * 0.5;
 
 const scoreCounter = new ScoreCounter(new Vector2(CANVAS_WIDTH * 0.1, CANVAS_HEIGHT * 0.925));
@@ -92,6 +92,7 @@ const gameLoop = (now) => {
     update();
     render();
     calcDeltaTime(now);
+    console.log(deltaTime.toFixed(2));
     window.requestAnimationFrame(gameLoop);
 };
 
