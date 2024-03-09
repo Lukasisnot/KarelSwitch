@@ -1,2 +1,2 @@
 # Karel Switch
-[PLAY](https://lukasisnot.github.io/gamesa/)
+[PLAY](https://lukasisnot.github.io/KarelSwitch/)
