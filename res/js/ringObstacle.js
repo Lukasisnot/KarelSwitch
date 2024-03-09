@@ -7,11 +7,11 @@ export class RingObstacle extends Entity {
     constructor(pos = new Vector2()) {
         super(pos);
 
-        this.defRadius = 260;
-        this.radiusRand = 0.2;
+        this.defRadius = 265;
+        this.radiusRand = 0.17;
 
         this.defThickness = 40;
-        this.thicknessRand = 0.4;
+        this.thicknessRand = 0.34;
 
         this.defSpeed = 17;
         this.speedRand = .3;
