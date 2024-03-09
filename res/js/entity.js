@@ -5,7 +5,7 @@ export class Entity {
     constructor(pos = new Vector2(0, 0), path = "") {
         this.img = new Image();
         this.img.src = path;
-        this.position = pos;
+        this.position = Object.assign({}, pos);
         this.rotation = 0;
         this.scale = 1;
     }
@@ -47,7 +47,11 @@ export class Colors {
 
             case 3:
             case "yellow":
-                return "rgb(242,243,112)";
+                return "rgb(242, 243, 112)";
+
+            case 4:
+            case "white":
+                return "rgb(255, 255, 255)";
         
             default:
                 console.error("invalid color value");

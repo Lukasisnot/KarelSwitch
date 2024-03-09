@@ -1,14 +1,22 @@
 import { Entity } from "./entity.js";
-import { Vector2 } from "./math.js";
+import { Rand, Vector2 } from "./math.js";
 import { Waves } from "./math.js";
 import { Colors } from "./entity.js";
 
 export class RingObstacle extends Entity {
     constructor(pos = new Vector2()) {
         super(pos);
-        this.radius = 250;
-        this.thickness = 40;
-        this.speed = 15;
+
+        this.defRadius = 260;
+        this.radiusRand = 0.2;
+
+        this.defThickness = 40;
+        this.thicknessRand = 0.4;
+
+        this.defSpeed = 17;
+        this.speedRand = .3;
+
+        this.randomize();
     }
 
     drawExtend(ctx) {
@@ -51,5 +59,11 @@ export class RingObstacle extends Entity {
 
         this.colorBottom = Math.floor(this.rotation / (Math.PI / 2));
         this.colorTop = Math.floor((Waves.saw(this.rotation) + Math.PI) / (Math.PI / 2));
+    }
+
+    randomize() {
+        this.radius = Rand.getRandNum(this.defRadius - this.defRadius * this.radiusRand, this.defRadius + this.defRadius * this.radiusRand);
+        this.thickness = Rand.getRandNum(this.defThickness - this.defThickness * this.thicknessRand, this.defThickness + this.defThickness * this.thicknessRand);
+        this.speed = Rand.getRandNum(this.defSpeed - this.defSpeed * this.speedRand, this.defSpeed + this.defSpeed * this.speedRand);
     }
 }

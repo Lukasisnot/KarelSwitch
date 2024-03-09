@@ -10,8 +10,7 @@ export class ColorSwitcher extends Entity {
     }
 
     drawExtend(ctx) {
-        // ctx.filter = 'blur(7px)';
-        ctx.filter = 'drop-shadow(0px 0px 5px black)';
+        // ctx.filter = 'blur(3px)';
 
         ctx.beginPath();
         ctx.fillStyle = Colors.getColor(0);

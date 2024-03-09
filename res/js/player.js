@@ -8,15 +8,16 @@ import { RingObstacle } from "./ringObstacle.js";
 export class Player extends Entity {
     constructor(pos = new Vector2(0, 0), path) {
         super(pos, path);
+        this.spawnPos = Object.assign({}, pos);
         this.jumpPow = 125;
         this.gravityPow = 7;
         this.maxVelocity = 200;
-        this.velocity = 0;
         this.radius = 25;
+        this.velocity = 0;
         this.color = "";
         this.regenColor();
         this.start = false;
-        this.dead = false;
+        this.isDead = false;
     }
 
     drawExtend(ctx) {
@@ -52,33 +53,13 @@ export class Player extends Entity {
         this.color = newColor;
     }
 
-    collision(entity) {
-        switch (entity.constructor) {
-            case ColorSwitcher:
-                if (Math.abs(entity.position.y - this.position.y) < (entity.radius + this.radius)) {
-                    this.regenColor();
-                    entity.collected = true;
-                    // console.log("switcher collision!");
-                }
-                break;
-
-            case RingObstacle:
-                // console.log(this.dead, " this: ", this.colorIndex, " top: ", entity.colorTop, " bot: ", entity.colorBottom);
-                const offset = entity.position.y - this.position.y;
-                       // outer collision                                 // inner collision
-                if (Math.abs(offset) - this.radius < entity.radius && Math.abs(offset) + this.radius > entity.radius - entity.thickness) {
-                    if (offset > 0 && entity.colorTop != this.colorIndex) { // top collision
-                        this.dead = true;
-                    }
-                    else if (offset < 0 && entity.colorBottom != this.colorIndex) { // bottom collision
-                        this.dead = true;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-        // console.log(this.dead);
+    respawn() {
+        this.start = false;
+        this.isDead = false;
+        this.velocity = 0;
+        this.color = "";
+        this.regenColor();
+        this.position = new Vector2(this.spawnPos.x, this.spawnPos.y);
     }
 
 }
