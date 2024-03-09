@@ -13,7 +13,7 @@ const ctx = canvas.getContext("2d");
 
 const CANVAS_WIDTH = 1080;
 const CANVAS_HEIGHT = 1920;
-const CANVAS_COLOR = "rgb(25, 25, 25)";
+const CANVAS_COLOR = Colors.getColor("gray");
 
 // ctx.filter = 'drop-shadow(0px 0px 5px black)';
 
@@ -45,7 +45,10 @@ document.addEventListener("mousemove", (event) => {
 
 document.addEventListener("keydown", (key) => {
   keys[key.code] = true;
-  if (key.code == "Space") pl.jump();
+  if (key.code == "Space") {
+    pl.start = true;
+    pl.jump();
+}
 });
 
 document.addEventListener("keyup", (key) => {

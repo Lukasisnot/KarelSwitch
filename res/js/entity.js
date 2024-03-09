@@ -52,6 +52,10 @@ export class Colors {
             case 4:
             case "white":
                 return "rgb(255, 255, 255)";
+
+            case 5:
+            case "gray":
+                return "rgb(25, 25, 25)";
         
             default:
                 console.error("invalid color value");
