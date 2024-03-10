@@ -5,7 +5,7 @@ import { Player } from "./player.js";
 import { ColorSwitcher } from "./colorSwitcher.js";
 import { RingObstacle } from "./ringObstacle.js";
 import { ScorePoint } from "./scorePoint.js";
-import { ScoreCounter } from "./scoreCounter.js";
+import { Text } from "./scoreCounter.js";
 
 // canvas
 const canvas = document.getElementById("canvas");
@@ -23,6 +23,7 @@ const mousePos = new Vector2();
 
 // delta time
 let lastTick = performance.now();
+let fps = -1;
 let deltaTime = -1;
 
 // entities
@@ -36,7 +37,9 @@ const OBSTACLES_GAP = CANVAS_HEIGHT * 0.5;
 const pl = new Player(new Vector2(CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.8));
 const FLW_CAM_BOUNDS = CANVAS_HEIGHT * 0.5;
 
-const scoreCounter = new ScoreCounter(new Vector2(CANVAS_WIDTH * 0.1, CANVAS_HEIGHT * 0.925));
+const scoreCounter = new Text(new Vector2(CANVAS_WIDTH * 0.1, CANVAS_HEIGHT * 0.925));
+const fpsCounter = new Text(new Vector2(CANVAS_WIDTH * 0.7, CANVAS_HEIGHT * 0.925));
+fpsCounter.size = 40;
 
 document.addEventListener("mousemove", (event) => {
     mousePos.x = event.clientX;
@@ -61,13 +64,15 @@ window.onload = () => {
 }
 
 const gameInit = () => {
-    scoreCounter.score = 0;
+    scoreCounter.text = 0;
+    fpsCounter.text = -1;
 
     while (ui.shift());
     while (map.shift());
     
     pl.respawn();
     ui.push(scoreCounter);
+    ui.push(fpsCounter);
 
     for (let i = 0; i < OBSTACLES_NUM; i++) {
         const ring = new RingObstacle(new Vector2(CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.5));
@@ -92,7 +97,7 @@ const gameLoop = (now) => {
     update();
     render();
     calcDeltaTime(now);
-    console.log(deltaTime.toFixed(2));
+    // console.log(deltaTime.toFixed(2));
     window.requestAnimationFrame(gameLoop);
 };
 
@@ -138,7 +143,7 @@ const update = () => {
             case ScorePoint:
                 if (entity.collected) {
                     entity.collected = false;
-                    scoreCounter.score++;
+                    scoreCounter.text++;
                     entity.position.y -= OBSTACLES_GAP * OBSTACLES_NUM;
                 }
                 break;
@@ -212,6 +217,8 @@ const render = () => {
 
 const calcDeltaTime = (now) => {
     deltaTime = now - lastTick;
+    fps = 1000 / deltaTime;
+    fpsCounter.text = "fps: " + fps.toFixed();
     lastTick = now;
 };
 
