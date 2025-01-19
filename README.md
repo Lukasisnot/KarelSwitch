@@ -1,4 +1,4 @@
 # Karel Switch
-[PLAY](https://lukasisnot.github.io/KarelSwitch/)
-! MUST USE BROWSER ACCELERATION !
+[PLAY](https://lukasisnot.github.io/KarelSwitch/) <br>
+<b>! MUST USE BROWSER ACCELERATION !</b> <br>
 Controls: [Space] or [LMB]
